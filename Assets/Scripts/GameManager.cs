@@ -42,7 +42,8 @@ namespace ClubBlackout {
             // Placeholder deterministic assignment for now
             Players.Clear();
             for (int i = 0; i < roles.Count; i++) {
-                Players.Add(new Player(i.ToString(), "Player " + (i+1), new Role(roles[i])));
+                var desc = RoleDescriptionLoader.GetDescription(roles[i]);
+                Players.Add(new Player(i.ToString(), "Player " + (i+1), new Role(roles[i], null, desc)));
             }
         }
 

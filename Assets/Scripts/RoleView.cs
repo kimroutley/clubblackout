@@ -6,6 +6,7 @@ namespace ClubBlackout {
     public class RoleView : MonoBehaviour {
         public Image RoleImage;
         public Text RoleNameText;
+        public Text RoleDescriptionText;
         public CanvasGroup CanvasGroup;
 
         void Reset() {
@@ -15,6 +16,7 @@ namespace ClubBlackout {
         public void Show(Role role, Sprite sprite) {
             if (RoleImage != null) RoleImage.sprite = sprite;
             if (RoleNameText != null) RoleNameText.text = role.DisplayName;
+            if (RoleDescriptionText != null) RoleDescriptionText.text = role.Description;
             if (CanvasGroup != null) CanvasGroup.alpha = 1f; CanvasGroup.blocksRaycasts = true; CanvasGroup.interactable = true;
         }
 

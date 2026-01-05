@@ -1,0 +1,42 @@
+{
+  "guides": [
+    {
+      "title": "Club Blackout Player Guide 1",
+      "image": "Player guide 1.png",
+      "description": "Basic role overview and game flow"
+    },
+    {
+      "title": "Club Blackout Player Guide 2",
+      "image": "player guide 2.png",
+      "description": "Advanced roles and night action sequences"
+    },
+    {
+      "title": "Club Blackout Player Guide 3",
+      "image": "player guide 3.png",
+      "description": "Victory conditions and Host Tools guide"
+    }
+  ],
+  "roleDescriptions": {
+    "Dealer": "The Killers of the game. Work together to eliminate Party Animals without getting caught.",
+    "PartyAnimal": "Innocent party people trying to survive as many nights as possible.",
+    "Medic": "Choose at game start: RECUSITATE (single-use revive) or PROTECT (nightly block). Alliance: Party Animals.",
+    "Bouncer": "Check one player's ID each night (Dealer or Party Animal). Can steal Roofi powers if correctly identified. Alliance: Party Animals.",
+    "TeaSpiller": "When killed, exposes one player's alignment (Dealer or Not). Alliance: Party Animals.",
+    "Wallflower": "Can observe murders discreetly but must hint without revealing what they saw. Alliance: Party Animals.",
+    "MessyBitch": "Talks smack and blames others. Goal: survive by any means. No alliance.",
+    "Clinger": "Must vote same as partner unconditionally. If discovered, dies. Alliance: partner's.",
+    "Whore": "Defends Dealers publicly. Alliance: Dealers.",
+    "Creep": "Pretends to be another Party Animal role. Dies if original role dies. Alliance: Party Animals.",
+    "Roofi": "Paralyzes one player each night (no speaking/moving). If target is Dealer, Dealer also paralyzed next night. Alliance: Party Animals.",
+    "Lightweight": "Each night, host points to someone whose name becomes taboo. If Lightweight says taboo name, they die. Alliance: Party Animals.",
+    "Predator": "When voted to death, chooses one voter to kill with them. Alliance: Party Animals.",
+    "Minor": "Cannot die until Bouncer IDs them. Alliance: Party Animals.",
+    "Sober": "Once per game, can send a player home for the night (immune). If used, no murders that night. Alliance: Party Animals.",
+    "SeasonedDrinker": "Has extra immunity lives (1 per Dealer). Each kill attempt reduces lives by 1. Alliance: Party Animals.",
+    "SecondWind": "When killed, can convince Dealers to convert into a Dealer (revives as Dealer, no kills that night). Alliance starts Party Animals, changes to Dealers if converted.",
+    "DramaQueen": "When killed, can swap two players' cards once on a later night and view them. Alliance: Party Animals.",
+    "ClubManager": "Each night, inspects one player's role privately. No alliance (self-survival only).",
+    "SilverFox": "Once per game, forces a player to reveal their card for 5 seconds. Alliance: Party Animals.",
+    "AllyCat": "Observes Bouncer ID checks and communicates using 'Meow' only. Has 9 lives. Alliance: Party Animals."
+  }
+}

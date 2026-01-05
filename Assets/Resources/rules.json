@@ -1,9 +1,15 @@
 {
   "gameName": "Club Blackout",
+  "tagline": "Party Animals vs Dealers - a social deduction night/day party game",
   "mvpRoles": ["Dealer","PartyAnimal","Medic","Bouncer","TeaSpiller","Wallflower"],
+  "allRoles": ["Dealer","PartyAnimal","Medic","Bouncer","TeaSpiller","Wallflower","MessyBitch","Clinger","Whore","Creep","Roofi","Lightweight","Predator","Minor","Sober","SeasonedDrinker","SecondWind","DramaQueen","ClubManager","SilverFox","AllyCat"],
   "nightOrder": ["Sober","Roofi","MedicProtect","BouncerCheck","ManagerInspect","DealersChoose","ResolveKills","DeathTriggers"],
   "victory": {
     "partyAnimals": "all dealers eliminated",
     "dealers": "dealers >= party animals"
+  },
+  "assets": {
+    "background": "background.png",
+    "playerGuides": ["Player guide 1.png", "player guide 2.png", "player guide 3.png"]
   }
 }
