@@ -36,7 +36,7 @@ jobs:
         with:
           projectPath: My project
           targetPlatform: Android
-          androidExportType: apk
+          androidExportType: androidPackage
           androidKeystoreName: user.keystore
           androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
