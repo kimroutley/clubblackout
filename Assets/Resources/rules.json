@@ -1,0 +1,9 @@
+{
+  "gameName": "Club Blackout",
+  "mvpRoles": ["Dealer","PartyAnimal","Medic","Bouncer","TeaSpiller","Wallflower"],
+  "nightOrder": ["Sober","Roofi","MedicProtect","BouncerCheck","ManagerInspect","DealersChoose","ResolveKills","DeathTriggers"],
+  "victory": {
+    "partyAnimals": "all dealers eliminated",
+    "dealers": "dealers >= party animals"
+  }
+}
