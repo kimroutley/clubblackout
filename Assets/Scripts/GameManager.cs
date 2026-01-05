@@ -15,10 +15,12 @@ namespace ClubBlackout {
         // Basic flow state
         public enum Phase { Setup, Night, Day, Finished }
         public Phase CurrentPhase = Phase.Setup;
+        public int NightsPlayed = 0;
 
         // Pass-and-play support
         public RoleUIController RoleUIController;
         public HostTools HostTools;
+        public VictoryScreen VictoryScreen;
         public bool PassAndPlayMode = true;
         private int currentPrivateIndex = -1;
         private RoleView currentRoleView = null;
@@ -78,6 +80,7 @@ namespace ClubBlackout {
 
         public void StartNight() {
             CurrentPhase = Phase.Night;
+            NightsPlayed++;
             if (HostTools != null) HostTools.StartNightTimer();
             
             var nightResolver = FindObjectOfType<NightResolver>();

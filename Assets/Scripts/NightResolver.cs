@@ -126,13 +126,22 @@ namespace ClubBlackout {
 
             if (dealersAlive == 0) {
                 Debug.Log("Victory: Party Animals win!");
+                ShowVictory(true);
                 return true;
             }
             if (dealersAlive >= partyAnimalsAlive) {
                 Debug.Log("Victory: Dealers win!");
+                ShowVictory(false);
                 return true;
             }
             return false;
+        }
+
+        void ShowVictory(bool partyAnimalsWin) {
+            if (GameManager != null && GameManager.VictoryScreen != null) {
+                GameManager.CurrentPhase = GameManager.Phase.Finished;
+                GameManager.VictoryScreen.ShowVictory(partyAnimalsWin, GameManager.NightsPlayed);
+            }
         }
     }
 }
