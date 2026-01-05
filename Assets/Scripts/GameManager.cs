@@ -79,13 +79,17 @@ namespace ClubBlackout {
         public void StartNight() {
             CurrentPhase = Phase.Night;
             if (HostTools != null) HostTools.StartNightTimer();
-            // TODO: invoke night resolver
+            
+            var nightResolver = FindObjectOfType<NightResolver>();
+            if (nightResolver != null) nightResolver.StartNight();
         }
 
         public void StartDay() {
             CurrentPhase = Phase.Day;
             if (HostTools != null) HostTools.StartDayTimer();
-            // TODO: start discussion timer, show votes UI
+            
+            var voteController = FindObjectOfType<VoteController>();
+            if (voteController != null) voteController.StartVoting();
         }
 
         // Host manual overrides
