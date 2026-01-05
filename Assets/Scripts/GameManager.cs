@@ -16,6 +16,13 @@ namespace ClubBlackout {
         public enum Phase { Setup, Night, Day, Finished }
         public Phase CurrentPhase = Phase.Setup;
 
+        // Pass-and-play support
+        public RoleUIController RoleUIController;
+        public HostTools HostTools;
+        public bool PassAndPlayMode = true;
+        private int currentPrivateIndex = -1;
+        private RoleView currentRoleView = null;
+
         void Start() {
             // Placeholder: initialize or load a saved game
             // Attempt to auto-populate role sprite database in editor (no-op at runtime)
@@ -23,9 +30,7 @@ namespace ClubBlackout {
             UnityEditor.EditorApplication.delayCall += () => {
                 var db = UnityEditor.AssetDatabase.LoadAssetAtPath<RoleSpriteDatabase>("Assets/Resources/role_sprites.asset");
                 if (db == null) {
-                    // try to create/populate it automatically
                     var populate = typeof(ClubBlackout.Editor.PopulateRoleSpritesEditor);
-                    // call the menu command via EditorUtility
                     UnityEditor.Menu.SetChecked("Tools/ClubBlackout/Populate Role Sprite DB (auto)", true);
                     UnityEditor.EditorApplication.ExecuteMenuItem("Tools/ClubBlackout/Populate Role Sprite DB (auto)");
                 }
@@ -41,14 +46,53 @@ namespace ClubBlackout {
             }
         }
 
+        public void DealRolesAndStartPassAndPlay(List<RoleType> roles) {
+            AssignRoles(roles);
+            currentPrivateIndex = -1;
+            ShowNextPrivateRole();
+        }
+
+        public void ShowNextPrivateRole() {
+            // Destroy previous view
+            if (currentRoleView != null) Destroy(currentRoleView.gameObject);
+
+            currentPrivateIndex++;
+            if (currentPrivateIndex >= Players.Count) {
+                EndPassAndPlayPrivateViews();
+                return;
+            }
+
+            var role = Players[currentPrivateIndex].Role;
+            if (RoleUIController != null) {
+                currentRoleView = RoleUIController.SpawnRoleView(role);
+            }
+        }
+
+        public void EndPassAndPlayPrivateViews() {
+            if (currentRoleView != null) Destroy(currentRoleView.gameObject);
+            currentRoleView = null;
+            currentPrivateIndex = -1;
+            StartNight();
+        }
+
         public void StartNight() {
             CurrentPhase = Phase.Night;
-            // invoke night resolver
+            if (HostTools != null) HostTools.StartNightTimer();
+            // TODO: invoke night resolver
         }
 
         public void StartDay() {
             CurrentPhase = Phase.Day;
-            // start discussion timer, show votes UI
+            if (HostTools != null) HostTools.StartDayTimer();
+            // TODO: start discussion timer, show votes UI
+        }
+
+        // Host manual overrides
+        public void HostAdvanceToDay() {
+            StartDay();
+        }
+        public void HostAdvanceToNight() {
+            StartNight();
         }
     }
 }
