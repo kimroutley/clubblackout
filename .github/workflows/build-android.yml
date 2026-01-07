@@ -42,15 +42,23 @@ jobs:
           
           Write-Host "Using Unity at: $unityPath"
           
+          $projectPath = Join-Path "${{ github.workspace }}" "My project"
+          $logPath = Join-Path "${{ github.workspace }}" "build.log"
+          
           & $unityPath -quit -batchmode -nographics `
-            -projectPath "${{ github.workspace }}/My project" `
+            -projectPath $projectPath `
             -buildTarget Android `
             -executeMethod BuildScript.BuildAndroidAPK `
-            -logFile "${{ github.workspace }}/build.log"
+            -logFile $logPath
           
-          if ($LASTEXITCODE -ne 0) {
-            Get-Content "${{ github.workspace }}/build.log" -Tail 50
-            exit $LASTEXITCODE
+          $exitCode = $LASTEXITCODE
+          
+          if (Test-Path $logPath) {
+            Get-Content $logPath -Tail 100
+          }
+          
+          if ($exitCode -ne 0) {
+            exit $exitCode
           }
       
       - name: Upload APK
