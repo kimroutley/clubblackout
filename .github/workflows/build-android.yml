@@ -45,6 +45,17 @@ jobs:
           $projectPath = Join-Path "${{ github.workspace }}" "My project"
           $logPath = Join-Path "${{ github.workspace }}" "build.log"
           
+          # First, generate scenes
+          Write-Host "Generating Unity scenes..."
+          & $unityPath -quit -batchmode -nographics `
+            -projectPath $projectPath `
+            -executeMethod SceneSetupTool.SetupAllScenes `
+            -logFile $logPath
+          
+          Start-Sleep -Seconds 5
+          
+          # Then build Android APK
+          Write-Host "Building Android APK..."
           & $unityPath -quit -batchmode -nographics `
             -projectPath $projectPath `
             -buildTarget Android `
@@ -54,7 +65,17 @@ jobs:
           $exitCode = $LASTEXITCODE
           
           if (Test-Path $logPath) {
+            Write-Host "Build log:"
             Get-Content $logPath -Tail 100
+          }
+          
+          # Check if APK was created
+          $apkPath = Join-Path $projectPath "Builds\Android\ClubBlackout.apk"
+          if (Test-Path $apkPath) {
+            Write-Host "APK created successfully at: $apkPath"
+          } else {
+            Write-Error "APK was not created at expected path: $apkPath"
+            exit 1
           }
           
           if ($exitCode -ne 0) {
@@ -65,5 +86,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ClubBlackout-Android
-          path: My project/Builds/Android/*.apk
+          path: My project/Builds/Android/ClubBlackout.apk
           retention-days: 30
