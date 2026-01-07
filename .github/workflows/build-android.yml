@@ -28,20 +28,34 @@ jobs:
             Library-
       
       - name: Build Unity Project
-        uses: game-ci/unity-builder@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          projectPath: My project
-          targetPlatform: Android
-          androidExportType: androidPackage
-          customParameters: -scriptingBackend Mono2x
+        shell: pwsh
+        run: |
+          $unityPath = Get-ChildItem "C:\Program Files\Unity\Hub\Editor" -Directory | 
+            Sort-Object Name -Descending | 
+            Select-Object -First 1 | 
+            ForEach-Object { Join-Path $_.FullName "Editor\Unity.exe" }
+          
+          if (-not (Test-Path $unityPath)) {
+            Write-Error "Unity not found. Please install Unity Hub and Unity 2021 LTS with Android Build Support"
+            exit 1
+          }
+          
+          Write-Host "Using Unity at: $unityPath"
+          
+          & $unityPath -quit -batchmode -nographics `
+            -projectPath "${{ github.workspace }}/My project" `
+            -buildTarget Android `
+            -executeMethod BuildScript.BuildAndroidAPK `
+            -logFile "${{ github.workspace }}/build.log"
+          
+          if ($LASTEXITCODE -ne 0) {
+            Get-Content "${{ github.workspace }}/build.log" -Tail 50
+            exit $LASTEXITCODE
+          }
       
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ClubBlackout-Android
-          path: build/Android/*.apk
+          path: My project/Builds/Android/*.apk
           retention-days: 30
