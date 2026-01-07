@@ -19,6 +19,10 @@ jobs:
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
           sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
           sudo docker image prune --all --force
           df -h
       
@@ -46,11 +50,7 @@ jobs:
           projectPath: My project
           targetPlatform: Android
           androidExportType: androidPackage
-          androidKeystoreName: user.keystore
-          androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
-          androidKeyaliasName: ${{ secrets.ANDROID_KEYALIAS_NAME }}
-          androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
+          customParameters: -scriptingBackend Mono2x
       
       - name: Upload APK
         uses: actions/upload-artifact@v4
