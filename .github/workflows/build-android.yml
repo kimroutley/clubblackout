@@ -28,7 +28,7 @@ jobs:
             Library-
       
       - name: Build Unity Project
-        shell: pwsh
+        shell: powershell
         run: |
           $unityPath = Get-ChildItem "C:\Program Files\Unity\Hub\Editor" -Directory | 
             Sort-Object Name -Descending | 
