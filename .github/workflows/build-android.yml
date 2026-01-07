@@ -42,13 +42,15 @@ jobs:
           
           Write-Host "Using Unity at: $unityPath"
           
-          $projectPath = Join-Path "${{ github.workspace }}" "My project"
-          $logPath = Join-Path "${{ github.workspace }}" "build.log"
+          # Change to workspace directory
+          Set-Location "${{ github.workspace }}"
+          
+          $logPath = "build.log"
           
           # First, generate scenes
           Write-Host "Generating Unity scenes..."
           & $unityPath -quit -batchmode -nographics `
-            -projectPath $projectPath `
+            -projectPath "My project" `
             -executeMethod SceneSetupTool.SetupAllScenes `
             -logFile $logPath
           
@@ -57,7 +59,7 @@ jobs:
           # Then build Android APK
           Write-Host "Building Android APK..."
           & $unityPath -quit -batchmode -nographics `
-            -projectPath $projectPath `
+            -projectPath "My project" `
             -buildTarget Android `
             -executeMethod BuildScript.BuildAndroidAPK `
             -logFile $logPath
@@ -70,7 +72,7 @@ jobs:
           }
           
           # Check if APK was created
-          $apkPath = Join-Path $projectPath "Builds\Android\ClubBlackout.apk"
+          $apkPath = "My project\Builds\Android\ClubBlackout.apk"
           if (Test-Path $apkPath) {
             Write-Host "APK created successfully at: $apkPath"
           } else {
