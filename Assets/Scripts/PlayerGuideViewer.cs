@@ -3,19 +3,6 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 namespace ClubBlackout {
-    [System.Serializable]
-    public class PlayerGuideData {
-        public string title;
-        public string image;
-        public string description;
-    }
-
-    [System.Serializable]
-    public class PlayerGuidesRoot {
-        public List<PlayerGuideData> guides;
-        public Dictionary<string, string> roleDescriptions;
-    }
-
     public class PlayerGuideViewer : MonoBehaviour {
         public Image GuideImage;
         public Text TitleText;
