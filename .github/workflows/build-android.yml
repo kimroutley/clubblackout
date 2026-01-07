@@ -45,12 +45,15 @@ jobs:
           # Change to workspace directory
           Set-Location "${{ github.workspace }}"
           
+          $projectPath = (Resolve-Path "My project").Path
           $logPath = "build.log"
+          
+          Write-Host "Project path: $projectPath"
           
           # First, generate scenes
           Write-Host "Generating Unity scenes..."
           & $unityPath -quit -batchmode -nographics `
-            -projectPath "My project" `
+            -projectPath "`"$projectPath`"" `
             -executeMethod SceneSetupTool.SetupAllScenes `
             -logFile $logPath
           
@@ -59,7 +62,7 @@ jobs:
           # Then build Android APK
           Write-Host "Building Android APK..."
           & $unityPath -quit -batchmode -nographics `
-            -projectPath "My project" `
+            -projectPath "`"$projectPath`"" `
             -buildTarget Android `
             -executeMethod BuildScript.BuildAndroidAPK `
             -logFile $logPath
