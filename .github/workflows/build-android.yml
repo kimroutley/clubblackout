@@ -42,40 +42,24 @@ jobs:
           
           Write-Host "Using Unity at: $unityPath"
           
-          # Use full absolute path
-          $projectPath = "${{ github.workspace }}\My project"
-          $logPath = "${{ github.workspace }}\build.log"
+          # Use workspace directory
+          cd "${{ github.workspace }}"
+          
+          $projectPath = Resolve-Path ".\My project"
+          $logPath = ".\build.log"
           
           Write-Host "Project path: $projectPath"
+          Write-Host "Working directory: $(Get-Location)"
           
           # First, generate scenes
           Write-Host "Generating Unity scenes..."
-          $sceneArgs = @(
-            "-quit",
-            "-batchmode",
-            "-nographics",
-            "-projectPath", $projectPath,
-            "-executeMethod", "SceneSetupTool.SetupAllScenes",
-            "-logFile", $logPath
-          )
-          & $unityPath $sceneArgs
+          Start-Process -FilePath $unityPath -ArgumentList "-quit","-batchmode","-nographics","-projectPath","$projectPath","-executeMethod","SceneSetupTool.SetupAllScenes","-logFile","$logPath" -Wait -NoNewWindow
           
           Start-Sleep -Seconds 5
           
-          # Then build Android APK
+          # Then build Android APK  
           Write-Host "Building Android APK..."
-          $buildArgs = @(
-            "-quit",
-            "-batchmode",
-            "-nographics",
-            "-projectPath", $projectPath,
-            "-buildTarget", "Android",
-            "-executeMethod", "BuildScript.BuildAndroidAPK",
-            "-logFile", $logPath
-          )
-          & $unityPath $buildArgs
-          
-          $exitCode = $LASTEXITCODE
+          Start-Process -FilePath $unityPath -ArgumentList "-quit","-batchmode","-nographics","-projectPath","$projectPath","-buildTarget","Android","-executeMethod","BuildScript.BuildAndroidAPK","-logFile","$logPath" -Wait -NoNewWindow
           
           if (Test-Path $logPath) {
             Write-Host "Build log:"
@@ -83,16 +67,12 @@ jobs:
           }
           
           # Check if APK was created
-          $apkPath = "$projectPath\Builds\Android\ClubBlackout.apk"
+          $apkPath = ".\My project\Builds\Android\ClubBlackout.apk"
           if (Test-Path $apkPath) {
-            Write-Host "APK created successfully at: $apkPath"
+            Write-Host "APK created successfully!"
           } else {
-            Write-Error "APK was not created at expected path: $apkPath"
+            Write-Error "APK was not created"
             exit 1
-          }
-          
-          if ($exitCode -ne 0) {
-            exit $exitCode
           }
       
       - name: Upload APK
